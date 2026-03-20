@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeMaster Services</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --facebook-color: #1877F2;
+            --facebook-hover: #166FE5;
+            --gcash-blue: #005CEE;
+            --bg-color: #F9FAFB;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --card-bg: #FFFFFF;
+            --gold: #FBBF24;
+        }
+
+        /* Basic Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { color: var(--text-main); margin-bottom: 1rem; }
+        p { color: var(--text-muted); margin-bottom: 1rem; }
+
+        /* Header / Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        nav ul { list-style: none; display: flex; gap: 2rem; }
+        nav a { text-decoration: none; color: var(--text-main); font-weight: 600; transition: color 0.3s; }
+        nav a:hover { color: var(--primary-color); }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 6rem 5%; background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); }
+        .hero h1 { font-size: 3rem; }
+
+        /* Section Layouts */
+        section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.2rem; }
+
+        /* Grids for Cards */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+
+        /* Cards Styling */
+        .card { background-color: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .stars { color: var(--gold); margin-bottom: 1rem; }
+
+        /* Coding Progress Bars */
+        .coding-skill { margin-bottom: 1.5rem; }
+        .coding-skill-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600; }
+        .progress-bar { width: 100%; height: 10px; background-color: #E5E7EB; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background-color: var(--primary-color); border-radius: 5px; }
+
+        /* Contact Section & Forms */
+        .contact-container { background-color: var(--card-bg); padding: 3rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #D1D5DB; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary-color); }
+
+        button.btn-primary { width: 100%; padding: 1rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background-color 0.3s; }
+        button.btn-primary:hover { background-color: var(--primary-hover); }
+
+        .divider { text-align: center; margin: 2rem 0; position: relative; }
+        .divider::before { content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #E5E7EB; z-index: 1; }
+        .divider span { background: var(--card-bg); padding: 0 10px; color: var(--text-muted); position: relative; z-index: 2; }
+
+        a.btn-facebook { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 1rem; background-color: var(--facebook-color); color: white; text-decoration: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; transition: background-color 0.3s; cursor: pointer;}
+        a.btn-facebook:hover { background-color: var(--facebook-hover); }
+
+        /* Modals (Ads & Payment) */
+        .modal {
+            display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px;
+            width: 90%; max-width: 450px; text-align: center; position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+            max-height: 95vh; overflow-y: auto;
+        }
+
+        /* Specialized styles for the Ad Modal */
+        .ad-modal-content { max-width: 900px; height: 85vh; display: flex; flex-direction: column; padding: 1.5rem; overflow: hidden; }
+        .ad-modal-content h2 { color: var(--text-main); margin-bottom: 0.5rem; font-size: 1.8rem; text-transform: uppercase; }
+        
+        #adTimerContainer { margin-bottom: 10px; font-weight: bold; background: #F3F4F6; padding: 10px; border-radius: 8px;}
+        #adTimerText { font-size: 1.1rem; transition: color 0.3s; margin: 0; }
+
+        .ad-iframe-container {
+            flex-grow: 1; width: 100%; margin: 0.5rem 0; border: 4px solid #DC2626; 
+            border-radius: 8px; overflow: hidden; background: #F3F4F6; position: relative;
+            transition: border-color 0.3s;
+        }
+        .ad-iframe-container iframe { width: 100%; height: 100%; border: none; }
+
+        @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* GCash Image Adjustments */
+        .modal-content img.gcash-img { 
+            width: 100%; max-width: 280px; height: auto; object-fit: contain; 
+            margin: 1rem auto; border-radius: 8px; display: block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .gcash-number {
+            font-size: 1.5rem; font-weight: 700; color: var(--gcash-blue); margin: 10px 0; background: #EFF6FF; padding: 10px; border-radius: 8px; display: inline-block;
+        }
+
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; font-weight: bold; color: #9CA3AF; cursor: pointer; }
+        .close-modal:hover { color: #111827; }
+
+        #successMessage { display: none; background-color: #D1FAE5; color: #065F46; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: center; font-weight: 600; }
+
+        @media (max-width: 768px) { nav ul { display: none; } .hero h1 { font-size: 2.2rem; } .ad-modal-content h2 { font-size: 1.4rem; } }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">&lt;/CodeMaster&gt;</div>
+        <ul>
+            <li><a href="#ratings">Business Ratings</a></li>
+            <li><a href="#study">Study Ratings</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Learn, Build, and Grow with Us</h1>
+        <p>Premium coding resources, business solutions, and top-rated tutorials.</p>
+    </header>
+
+    <!-- Business Ratings Section -->
+    <section id="ratings">
+        <div class="section-header">
+            <h2>Business Ratings & Reviews</h2>
+            <p>See why our clients and students love working with us.</p>
+        </div>
+        <div class="grid-container">
+            <div class="card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <h3>Excellent Service!</h3>
+                <p>"They helped me build my business website from scratch. The code is clean and the design is absolutely modern."</p>
+                <strong>- Sarah Jenkins</strong>
+            </div>
+            <div class="card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <h3>Highly Recommended</h3>
+                <p>"Great communication and fast delivery. I'm very satisfied with the customer support and end product."</p>
+                <strong>- Mark Doe</strong>
+            </div>
+            <div class="card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <h3>Best Agency</h3>
+                <p>"If you are looking for top-tier coding professionals, this is the right place to put your trust."</p>
+                <strong>- Elena Rodriguez</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coding Study Ratings Section -->
+    <section id="study">
+        <div class="section-header">
+            <h2>Study Ratings on Coding</h2>
+            <p>Our expertise and curriculum quality across different programming domains.</p>
+        </div>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Frontend Development</h3>
+                <div class="coding-skill">
+                    <div class="coding-skill-header"><span>HTML5 & CSS3</span><span>4.9 / 5.0 Rating</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 98%;"></div></div>
+                </div>
+                <div class="coding-skill">
+                    <div class="coding-skill-header"><span>JavaScript (ES6+)</span><span>4.8 / 5.0 Rating</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Backend & Systems</h3>
+                <div class="coding-skill">
+                    <div class="coding-skill-header"><span>Python</span><span>4.9 / 5.0 Rating</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 98%;"></div></div>
+                </div>
+                <div class="coding-skill">
+                    <div class="coding-skill-header"><span>SQL & Databases</span><span>4.8 / 5.0 Rating</span></div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <h2>Let's Connect</h2>
+            <p>Send us an inquiry or message us directly on Facebook.</p>
+        </div>
+
+        <div class="contact-container">
+            <div id="successMessage">Your message has been successfully submitted!</div>
+
+            <!-- Contact Form -->
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="john@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" rows="4" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Inquiry</button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
+            <!-- Direct Facebook Link (Also Triggers Ad & Payment Wall) -->
+            <a id="facebookBtn" class="btn-facebook">
+                <i class="fab fa-facebook"></i> Contact Us Directly on Facebook
+            </a>
+        </div>
+    </section>
+
+    <!-- 1. The Ad Website Modal (Interactive Timer enforced) -->
+    <div id="adModal" class="modal">
+        <div class="modal-content ad-modal-content">
+            <h2>You Must Try This!</h2>
+            
+            <!-- Timer Status -->
+            <div id="adTimerContainer">
+                <p id="adTimerText">Action Required: Interact with the site below to start timer.</p>
+            </div>
+            
+            <!-- Interactive Iframe -->
+            <div class="ad-iframe-container" id="adIframeContainer">
+                <!-- Replace 'https://example.com' with your actual promoted website URL -->
+                <iframe src="https://example.com" title="Promoted Ad Website"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GCash Payment Required Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closePaymentModal">&times;</span>
+            <h3 style="color: var(--gcash-blue);"><i class="fas fa-wallet"></i> GCash Payment Required</h3>
+            <p style="margin-top: 10px; font-size: 0.95rem;">Please send your consultation fee via GCash to proceed.</p>
+            
+            <div class="gcash-number">09276510320</div>
+            <p style="font-size: 0.85rem; color: #6B7280; margin-bottom: 10px;">Or scan the QR code below:</p>
+
+            <!-- IMPORTANT: Ensure your uploaded image is named exactly 'gcash-qr.jpg' and is in the same folder as this file -->
+            <img src="gcash-qr.jpg" alt="GCash QR Code" class="gcash-img" onerror="this.src='https://via.placeholder.com/280x400?text=Save+your+GCash+image+as+gcash-qr.jpg'">
+            
+            <button id="confirmPaymentBtn" class="btn-primary" style="margin-top: 15px; background-color: var(--gcash-blue);">I Have Paid, Proceed</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // DOM Elements
+        const contactForm = document.getElementById('contactForm');
+        const facebookBtn = document.getElementById('facebookBtn');
+        const adModal = document.getElementById('adModal');
+        const paymentModal = document.getElementById('paymentModal');
+        const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+        const closePaymentModal = document.getElementById('closePaymentModal');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Ad Timer Elements
+        const adIframeContainer = document.getElementById('adIframeContainer');
+        const adTimerText = document.getElementById('adTimerText');
+
+        // Logic Variables
+        let timeLeft = 20;
+        let adInterval;
+        let isInteracting = false;
+        let hasClickedIframe = false;
+        let pendingAction = null; // Can be 'form' or 'facebook'
+
+        // --- Interaction Visuals for Ad ---
+        function setActiveState() {
+            isInteracting = true;
+            if(timeLeft > 0) {
+                adTimerText.style.color = "#059669"; // Green
+                adIframeContainer.style.borderColor = "#059669";
+            }
+        }
+
+        function setPausedState() {
+            if(hasClickedIframe) return; // If they clicked inside, keep it active
+
+            isInteracting = false;
+            if(timeLeft > 0) {
+                adTimerText.style.color = "#DC2626"; // Red
+                adIframeContainer.style.borderColor = "#DC2626";
+                adTimerText.innerText = `Timer Paused: ${timeLeft}s (Hover or click inside the website to resume)`;
+            }
+        }
+
+        // Event Listeners for Iframe Interaction
+        adIframeContainer.addEventListener('mouseenter', setActiveState);
+        adIframeContainer.addEventListener('mouseleave', setPausedState);
+
+        window.addEventListener('blur', () => {
+            if (isInteracting) {
+                hasClickedIframe = true;
+                setActiveState();
+            }
+        });
+
+        window.addEventListener('focus', () => {
+            if (!hasClickedIframe) {
+                setPausedState();
+            }
+        });
+
+        // --- Trigger 1: Form Submit ---
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            pendingAction = 'form';
+            startAdTimer();
+        });
+
+        // --- Trigger 2: Facebook Button Click ---
+        facebookBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            pendingAction = 'facebook';
+            startAdTimer();
+        });
+
+        // --- Ad Timer Logic ---
+        function startAdTimer() {
+            // Reset Variables
+            timeLeft = 20;
+            isInteracting = false;
+            hasClickedIframe = false;
+            
+            adModal.style.display = 'flex'; // Show Ad
+            setPausedState(); 
+            adTimerText.innerText = `Action Required: Interact with the site below for ${timeLeft}s to proceed.`;
+
+            if(adInterval) clearInterval(adInterval);
+
+            // Timer Loop
+            adInterval = setInterval(() => {
+                if (isInteracting || hasClickedIframe) {
+                    timeLeft--;
+                    adTimerText.innerText = `Exploring... Proceeding in ${timeLeft}s`;
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(adInterval);
+                    adModal.style.display = 'none'; // Auto close Ad
+                    paymentModal.style.display = 'flex'; // Auto show GCash Payment
+                }
+            }, 1000);
+        }
+
+        // Close Payment Modal (cancels action)
+        closePaymentModal.addEventListener('click', function() {
+            paymentModal.style.display = 'none';
+            pendingAction = null; // Reset pending action
+        });
+
+        // --- Complete Submission after GCash Payment ---
+        confirmPaymentBtn.addEventListener('click', function() {
+            paymentModal.style.display = 'none'; 
+            
+            if (pendingAction === 'form') {
+                // Customer came from Form Submit
+                successMessage.style.display = 'block';
+                contactForm.reset();
+                setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
+            
+            } else if (pendingAction === 'facebook') {
+                // Customer came from Facebook Button
+                // REPLACE URL WITH YOUR ACTUAL FACEBOOK PAGE URL
+                window.open('https://www.facebook.com/YourPageHere', '_blank');
+            }
+
+            pendingAction = null; // Reset
+        });
+
+        // Close payment modal if clicked outside
+        window.addEventListener('click', function(e) {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
+                pendingAction = null;
+            }
+        });
+    </script>
+
+</body>
+</html>
